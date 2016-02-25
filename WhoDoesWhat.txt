@@ -1,0 +1,8 @@
+Brandon:
+1. JUnit test cases
+2. ComputeLadder algorithm
+
+Cooper:
+1. Main algorithm
+	-load 5 letter words into Hashmap/List
+	-load file of inputs, parse one line at a time
