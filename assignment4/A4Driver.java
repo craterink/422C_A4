@@ -13,6 +13,12 @@ import java.util.regex.Pattern;
 import wordladder.*;
 import wordladder.errors.NoSuchLadderException;
 
+/**
+ * Driver for EE422C Assignment 4 - Word Ladder
+ * @author Cooper Raterink, Brandon Arrindell
+ * UT EIDs: cdr2678, bja733
+ * Lab Section: Friday 2-3:30pm with Mehtaab
+ */
 public class A4Driver
 {
 	/**
@@ -29,21 +35,21 @@ public class A4Driver
 	{
 		try 
 		{
+			//formulate list of valid five-letter words and a wordmap from that list
 			ArrayList<String> fiveLetterWordList = getFiveLetterWords();
-			HashMap<String, ArrayList<String>> wordMap = WordMap.makeWordMap(fiveLetterWordList);
+			WordMap wordMap = new WordMap(fiveLetterWordList);
 			
 			// Create a word ladder solver object
-			A4Interface wordLadderSolver = new WordLadderSolver();
+			A4Interface wordLadderSolver = new WordLadderSolver(wordMap);
 			
 			List<String> result = wordLadderSolver.computeLadder("money", "honey");
 			boolean correct = wordLadderSolver.validateResult("money", "honey", result);
 		} 
 		catch (NoSuchLadderException e) 
 		{
-			e.printStackTrace();
+			System.out.println("There is no such ladder between ...");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("A4-words.txt file invalid or missing.");
 		}
 	}
 
@@ -69,6 +75,5 @@ public class A4Driver
 			}
 		}
 		return flWords;
-
 	}
 }

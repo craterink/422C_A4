@@ -3,6 +3,11 @@ package wordladder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class representing a graph/map of connected words, of equal length and differing by exactly one letter.
+ * @author Cooper, Brandon
+ *
+ */
 public class WordMap {
 	
 	/**
@@ -19,12 +24,15 @@ public class WordMap {
 	}
 	
 	/**
-	 * 
-	 * @param words
-	 * @return
+	 * Makes a word map out of a list of words, connecting words differing
+	 * by exactly one letter
+	 * @param words List of words to form a graph/map
+	 * @return A HashMap object representing the word map
 	 */
 	public static HashMap<String, ArrayList<String>> makeWordMap(ArrayList<String> words) {
+		//initialize hashmap to represent a graph of connected words
 		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+		//go through every word and compare to every other words, looking for valid connections
 		for(String word : words) {
 			ArrayList<String> connectedWords = new ArrayList<String>();
 			for(String cmpWord : words) {
@@ -33,6 +41,7 @@ public class WordMap {
 					connectedWords.add(cmpWord);
 				}
 			}
+			//add the word to the graph as a new node with edges directed towards connected words
 			map.put(word, connectedWords);
 		}
 		return map;
