@@ -5,8 +5,24 @@ import java.util.HashMap;
 
 public class WordMap {
 	
+	/**
+	 * Graph/map connecting words differing by exactly one letter
+	 */
+	private HashMap<String, ArrayList<String>> map;
 	
+	/**
+	 * Initializes a new word map using the specified list of words.
+	 * @param words List of words to form a word map out of
+	 */
+	public WordMap(ArrayList<String> words) {
+		map = makeWordMap(words);
+	}
 	
+	/**
+	 * 
+	 * @param words
+	 * @return
+	 */
 	public static HashMap<String, ArrayList<String>> makeWordMap(ArrayList<String> words) {
 		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 		for(String word : words) {
@@ -43,6 +59,7 @@ public class WordMap {
 			letterDelta += word2.length() - word1.length();
 		else 
 			letterDelta += word1.length() - word2.length();
+		
 		return letterDelta;
 	}
 	

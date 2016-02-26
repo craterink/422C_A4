@@ -29,8 +29,9 @@ public class A4Driver
 	{
 		try 
 		{
-			ArrayList<String> testWordList = getFiveLetterWords();
-			HashMap<String, ArrayList<String>> testMap = WordMap.makeWordMap(testWordList);
+			ArrayList<String> fiveLetterWordList = getFiveLetterWords();
+			HashMap<String, ArrayList<String>> wordMap = WordMap.makeWordMap(fiveLetterWordList);
+			
 			// Create a word ladder solver object
 			A4Interface wordLadderSolver = new WordLadderSolver();
 			
@@ -46,15 +47,24 @@ public class A4Driver
 		}
 	}
 
+	/**
+	 * Gets the list of valid English 5-letter words from the file given to us for A4
+	 * @return List of valid English five letter words
+	 * @throws IOException If the five-letter-word file is missing
+	 */
 	public static ArrayList<String> getFiveLetterWords() throws IOException {
 		//read each line from file - parse for valid words
 		FileReader freader = new FileReader(FIVE_LETTER_WORDS_FILE);
 		BufferedReader reader = new BufferedReader(freader);
+		//initialize a list to put valid 5-letter words in
 		ArrayList<String> flWords = new ArrayList<String>();
+		//search for valid words in each line from the given file
 		for (String line = reader.readLine(); line != null; line = reader.readLine()) 
 		{
+			//search in the line for the first five-letter word that is also at the beginning of the line
 			Matcher m = Pattern.compile("[a-z]{5}").matcher(line);
 			if(m.find() && line.indexOf(m.group(0)) == 0) {
+				//add the valid word to our list of words
 				flWords.add(m.group(0));
 			}
 		}
