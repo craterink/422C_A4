@@ -11,10 +11,22 @@ import java.util.List;
 import wordladder.errors.NoSuchLadderException;
 
 // do not change class name or interface it implements
+/**
+ * Class for solving word ladders between two words.
+ * @author Cooper, Brandon
+ */
 public class WordLadderSolver implements A4Interface
 {
+	/**
+	 * Represents a graph/map of connected words, of equal length and differing by exactly one letter 
+	 * that WordLadderSolver will use to find specific word ladders.
+	 */
 	private WordMap wordMap;
 
+	/**
+	 * Initializes a new WordLadderSolver that will use the specified wordmap graph
+	 * @param map Wordmap graph to use for solving word ladders
+	 */
 	public WordLadderSolver(WordMap map) {
 		wordMap = map;
 	}
