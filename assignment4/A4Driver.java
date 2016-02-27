@@ -56,9 +56,9 @@ public class A4Driver
 		}
 		catch (NoSuchLadderException e)
 		{
-			System.out.println("There is no such ladder between ...");
+			System.err.println(e);
 		} catch (IOException e) {
-			System.out.println("A4-words.txt file invalid or missing.");
+			System.err.println("A4-words.txt file invalid or missing.");
 		}
 	}
 
