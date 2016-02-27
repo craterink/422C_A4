@@ -1,7 +1,8 @@
 
 package wordladder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class representing a graph/map of connected words, of equal length and differing by exactly one letter.
@@ -52,52 +53,8 @@ public class WordMap {
 		return map;
 	}
 
-	public Set<String> keySet() {
-		return map.keySet();
-	}
-
-	public int size() {
-		return map.size();
-	}
-
-	public boolean containsKey(Object key) {
-		return map.containsKey(key);
-	}
-
 	public wordsAndIndex get(Object key) {
 		return map.get(key);
-	}
-
-	public void clear() {
-		map.clear();
-	}
-
-	public wordsAndIndex put(String key, wordsAndIndex value) {
-		return map.put(key, value);
-	}
-
-	public wordsAndIndex remove(Object key) {
-		return map.remove(key);
-	}
-
-	public boolean containsValue(Object value) {
-		return map.containsValue(value);
-	}
-
-	public Set<Map.Entry<String, wordsAndIndex>> entrySet() {
-		return map.entrySet();
-	}
-
-	public boolean isEmpty() {
-		return map.isEmpty();
-	}
-
-	public void putAll(Map<? extends String, ? extends wordsAndIndex> m) {
-		map.putAll(m);
-	}
-
-	public Collection<wordsAndIndex> values() {
-		return map.values();
 	}
 
 	/**
@@ -126,6 +83,13 @@ public class WordMap {
 		return letterDelta;
 	}
 
+	/**
+	 * Method telling the index of which letter is changed.
+	 *
+	 * @param word1 First word for comparison
+	 * @param word2 Second word for comparison
+	 * @return Index of changed letter
+	 */
 	public static int whichIndex(String word1, String word2) {
 		int different = 0;
 		int count = 0;
