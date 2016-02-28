@@ -26,7 +26,7 @@ public class A4Driver
 	 * File containing the list of all five letter words
 	 */
 	private static final String FIVE_LETTER_WORDS_FILE =
-			"C:\\Users\\Cooper\\workspace\\Ass4_WordLadder\\src\\A4-words.txt";
+			"/media/removable/UUI/GIT/422C_A41/A4-words.txt";
 
 	/**
 	 * Regex matching a five letter word in lowercase (as specified in this assignment)
