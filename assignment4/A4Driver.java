@@ -26,7 +26,7 @@ public class A4Driver
 	 * File containing the list of all five letter words
 	 */
 	private static final String FIVE_LETTER_WORDS_FILE =
-			"C:\\Users\\Cooper\\workspace\\Ass4_WordLadder\\src\\A4-words.txt";
+			"/media/removable/UUI/GIT/422C_A41/A4-words.txt";
 
 	/**
 	 * Regex matching a five letter word in lowercase (as specified in this assignment)
@@ -78,10 +78,11 @@ public class A4Driver
 					String[] words = parseInput(line, fiveLetterWordList);
 					
 					List<String> result = wordLadderSolver.computeLadder(words[START_WORD_INPUT_INDEX], words[END_WORD_INPUT_INDEX]);
-					
-					boolean correct = wordLadderSolver.validateResult(words[START_WORD_INPUT_INDEX], words[END_WORD_INPUT_INDEX], result);
-					printLadder(result, correct);
+					printLadder(result);
 
+					boolean correct = wordLadderSolver.validateResult(words[START_WORD_INPUT_INDEX], words[END_WORD_INPUT_INDEX], result);
+					int i = 4;
+					i++;
 				} catch (InvalidInputException iie) {
 					System.out.println(iie.toString());
 				} catch (NoSuchLadderException nsle) {
@@ -144,15 +145,11 @@ public class A4Driver
 	/**
 	 * Prints the specified word ladder to the standard output for user inspection.
 	 * @param ladder Word Ladder to print.
-	 * @param if the ladder is correct
 	 */
-	private static void printLadder(List<String> ladder, boolean isCorrect) {
-		System.out.println("===== " +  ladder.get(0) + " -> " + ladder.get(ladder.size() - 1) + " =====");
+	private static void printLadder(List<String> ladder) {
 		for (String word : ladder) {
 			System.out.println(word);																		
 		}
-		System.out.println("--------------------------");
-		System.out.println("Correct? " + ( isCorrect ? "YES" : "NO" ));
-		System.out.println("**************************\n");
+		System.out.println("**********\n");
 	}
 }
