@@ -111,4 +111,8 @@ public class WordMap {
 			return -1;
 		}
 	}
+
+	public int size() {
+		return this.map.size();
+	}
 }
