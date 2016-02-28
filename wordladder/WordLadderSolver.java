@@ -10,6 +10,7 @@ package wordladder;
 import wordladder.errors.NoSuchLadderException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static wordladder.WordMap.letterDelta;
@@ -76,6 +77,9 @@ public class WordLadderSolver implements A4Interface {
 		for(int i = 1; i < wordLadder.size(); i++) {
 			if(WordMap.letterDelta(wordLadder.get(i), wordLadder.get(i-1))!= 1) return false;
 		}
+		
+		//4)Make sure there's no duplicate words
+		if(wordLadder.size() != (new HashSet<String>(wordLadder)).size()) return false;
 		
 		//If all these conditions are met, it's a valid word ladder.
 		return true;

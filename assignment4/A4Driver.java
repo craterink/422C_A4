@@ -26,7 +26,7 @@ public class A4Driver
 	 * File containing the list of all five letter words
 	 */
 	private static final String FIVE_LETTER_WORDS_FILE =
-			"/home/brandon/Lab1/422C_A4/A4-words.txt";
+			"C:\\Users\\Cooper\\workspace\\Ass4_WordLadder\\src\\A4-words.txt";
 
 	/**
 	 * Regex matching a five letter word in lowercase (as specified in this assignment)
@@ -38,11 +38,6 @@ public class A4Driver
 	 */
 	private static final String VALID_INPUT_LINE_REGEX = 
 			String.format(" *%s +%s *", FIVE_LETTER_WORD_REGEX, FIVE_LETTER_WORD_REGEX);
-	
-	/**
-	 * Regex input delimiter (any amount of spaces)
-	 */
-	private static final String INPUT_DELIM = " +";
 	
 	/**
 	 * Index in args of the input file
@@ -86,7 +81,8 @@ public class A4Driver
 					printLadder(result);
 
 					boolean correct = wordLadderSolver.validateResult(words[START_WORD_INPUT_INDEX], words[END_WORD_INPUT_INDEX], result);
-					
+					int i = 4;
+					i++;
 				} catch (InvalidInputException iie) {
 					System.out.println(iie.toString());
 				} catch (NoSuchLadderException nsle) {
@@ -110,8 +106,10 @@ public class A4Driver
 		//read each line from file - parse for valid words
 		FileReader freader = new FileReader(FIVE_LETTER_WORDS_FILE);
 		BufferedReader reader = new BufferedReader(freader);
+		
 		//initialize a list to put valid 5-letter words in
 		ArrayList<String> flWords = new ArrayList<>();
+		
 		//search for valid words in each line from the given file
 		for (String line = reader.readLine(); line != null; line = reader.readLine())
 		{
@@ -135,7 +133,7 @@ public class A4Driver
 	 */
 	private static String[] parseInput(String inputLine, ArrayList<String> validWords) throws InvalidInputException {
 		boolean validFormat = inputLine.matches(VALID_INPUT_LINE_REGEX);
-		String[] inputWords = inputLine.replaceFirst(INPUT_DELIM, "").split(INPUT_DELIM);
+		String[] inputWords = inputLine.replaceFirst(" *", "").split(" +");
 		boolean wordsInDictionary = validWords.contains(inputWords[START_WORD_INPUT_INDEX]) 
 										 && validWords.contains(inputWords[END_WORD_INPUT_INDEX]); 
 		if(validFormat && wordsInDictionary)
