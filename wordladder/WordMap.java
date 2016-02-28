@@ -1,4 +1,10 @@
-
+/**
+ * EE422C Assignment 4 - Word Ladder
+ *
+ * @author Cooper Raterink, Brandon Arrindell
+ * UT EIDs: cdr2678, bja733
+ * Lab Section: Friday 2-3:30pm with Mehtaab
+ */
 package wordladder;
 
 import java.util.ArrayList;
