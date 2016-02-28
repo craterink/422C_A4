@@ -83,9 +83,9 @@ public class A4Driver
 					printLadder(result, correct);
 
 				} catch (InvalidInputException iie) {
-					System.out.println(iie.getMessage());
+					System.out.println(iie.getMessage() + "\n");
 				} catch (NoSuchLadderException nsle) {
-					System.out.println(nsle.getMessage());
+					System.out.println(nsle.getMessage() + "\n");
 				}
 			}
 
