@@ -14,9 +14,22 @@ import java.util.List;
 
 import static wordladder.WordMap.letterDelta;
 
-// do not change class name or interface it implements
+/**
+ * Class for solving word ladders between two specified words.
+ * Implements A4Interface for grading efficiency purposes.
+ * @author Cooper, Brandon
+ *
+ */
 public class WordLadderSolver implements A4Interface {
+	
+	/**
+	 * Contains a resulting word ladder represented as a list of sequential words.
+	 */
 	private final ArrayList<String> result = new ArrayList<>();
+	
+	/**
+	 * Word map graph in for pathfinding algorithms by this class to solve word ladders.
+	 */
 	private final WordMap wordMap;
 
 
@@ -35,14 +48,37 @@ public class WordLadderSolver implements A4Interface {
 	 */
 	@Override
 	public List<String> computeLadder(String startWord, String endWord) throws NoSuchLadderException {
-		Boolean isLadder = MakeLadder(startWord, endWord, -1);
+		Boolean isLadder = makeLadder(startWord, endWord, -1);
 		if (isLadder) return result;
 		else throw new NoSuchLadderException("No ladder found between " + startWord + " and " + endWord);
 	}
 
+
 	@Override
+	/**
+	 * Validates a given word ladder (makes sure it is correct for the given start and end words
+	 * @param startWord Starting word of the correct word ladder
+	 * @param endWord Ending word of the correct word ladder
+	 * @param wordLadder Word Ladder to check if correct for the given start and end words
+	 * @return true if word ladder is valid, false otherwise
+	 */
 	public boolean validateResult(String startWord, String endWord, List<String> wordLadder) {
-		throw new UnsupportedOperationException("Not implemented yet!");
+		//1) Make sure start and end words are correct
+		if(!wordLadder.get(0).equals(startWord)) return false;
+		if(!wordLadder.get(wordLadder.size()-1).equals(endWord)) return false;
+		
+		//2) Make sure all words in wordLadder are valid (i.e., they should be keys in the wordmap)
+		for(String word : wordLadder) {
+			if(wordMap.get(word) == null) return false;
+		}
+		
+		//3) Make sure all sequential words differ by exactly one letter
+		for(int i = 1; i < wordLadder.size(); i++) {
+			if(WordMap.letterDelta(wordLadder.get(i), wordLadder.get(i-1))!= 1) return false;
+		}
+		
+		//If all these conditions are met, it's a valid word ladder.
+		return true;
 	}
 
 
@@ -54,7 +90,7 @@ public class WordLadderSolver implements A4Interface {
 	 * @param index Index of letter previously changed
 	 * @return boolean of whether a ladder exists
 	 */
-	private boolean MakeLadder(String fromWord, String toWord, int index) {
+	private boolean makeLadder(String fromWord, String toWord, int index) {
 		// Add the current word to the ladder
 		result.add(fromWord);
 
@@ -71,9 +107,9 @@ public class WordLadderSolver implements A4Interface {
 		}
 		//If not, get a list of candidates for the current word with their indicies
 		else {
-			wordsAndIndex fromKey = wordMap.get(fromWord);
-			candidateList = fromKey.getS();
-			candIndicies = fromKey.getJ();
+			WordsAndIndex fromKey = wordMap.get(fromWord);
+			candidateList = fromKey.getCandidateWords();
+			candIndicies = fromKey.getChangedIndices();
 
 		}
 		/*For every candidate, check that it
@@ -85,7 +121,7 @@ public class WordLadderSolver implements A4Interface {
 			if(!result.contains(candidateList.get(i)) && index != candIndicies.get(i)) {
 				String candidate = candidateList.get(i);
 				int newInt = candIndicies.get(i);
-				if (MakeLadder(candidate, toWord, newInt)) {
+				if (makeLadder(candidate, toWord, newInt)) {
 					return true;
 				}
 			}

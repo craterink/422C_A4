@@ -3,6 +3,7 @@ package assignment4;
 import wordladder.A4Interface;
 import wordladder.WordLadderSolver;
 import wordladder.WordMap;
+import wordladder.errors.InvalidInputException;
 import wordladder.errors.NoSuchLadderException;
 
 import java.io.BufferedReader;
@@ -28,8 +29,40 @@ public class A4Driver
 			"/home/brandon/Lab1/422C_A4/A4-words.txt";
 
 	/**
+	 * Regex matching a five letter word in lowercase (as specified in this assignment)
+	 */
+	private static final String FIVE_LETTER_WORD_REGEX = "[a-z]{5}";
+	
+	/**
+	 * Regex matching a valid input line for this assignment
+	 */
+	private static final String VALID_INPUT_LINE_REGEX = 
+			String.format(" *%s +%s *", FIVE_LETTER_WORD_REGEX, FIVE_LETTER_WORD_REGEX);
+	
+	/**
+	 * Regex input delimiter (any amount of spaces)
+	 */
+	private static final String INPUT_DELIM = " +";
+	
+	/**
+	 * Index in args of the input file
+	 */
+	private static final int INPUT_FILE_ARGS_INDEX = 0;
+	
+	/**
+	 * Index in the input (separated by the above delimiter) of the start word of the word ladder
+	 */
+	private static final int START_WORD_INPUT_INDEX = 0;
+	
+	/**
+	 * Index in the input (separated by the above delimiter) of the end word of the word ladder
+	 */
+	private static final int END_WORD_INPUT_INDEX = 1;
+	
+	/**
 	 * Main method satisfies requirements of EE422C assignment 4.
-	 * @param args doesn't take any arguments
+	 * @param args First argument should specify the input file that
+	 * contains the words to make word ladders out of
 	 */
 	public static void main(String[] args)
 	{
@@ -41,24 +74,30 @@ public class A4Driver
 
 			// Create a word ladder solver object
 			A4Interface wordLadderSolver = new WordLadderSolver(wordMap);
-			//TODO:Add input error handling and loop for more than one set of words.
-			FileReader freader2 = new FileReader(args[0]);
-			BufferedReader reader2 = new BufferedReader(freader2);
-			String [] words = new String[2];
+			
+			//Iterate through input file line by line and make a word ladder from the words specified by each valid input line
+			FileReader freader = new FileReader(args[INPUT_FILE_ARGS_INDEX]);
+			BufferedReader reader = new BufferedReader(freader);
+			for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+				try {
+					String[] words = parseInput(line, fiveLetterWordList);
+					
+					List<String> result = wordLadderSolver.computeLadder(words[START_WORD_INPUT_INDEX], words[END_WORD_INPUT_INDEX]);
+					printLadder(result);
 
-			for (String t = reader2.readLine(); t != null; t = reader2.readLine()) {
-				words = t.split("\\s+");
+					boolean correct = wordLadderSolver.validateResult(words[START_WORD_INPUT_INDEX], words[END_WORD_INPUT_INDEX], result);
+					
+				} catch (InvalidInputException iie) {
+					System.out.println(iie.toString());
+				} catch (NoSuchLadderException nsle) {
+					System.out.println(nsle.toString());
+				}
 			}
-			List<String> result = wordLadderSolver.computeLadder(words[0], words[1]);
-			printLadder(result);
-
-			boolean correct = wordLadderSolver.validateResult("money", "honey", result);
+			
 		}
-		catch (NoSuchLadderException e)
-		{
-			System.err.println(e);
-		} catch (IOException e) {
-			System.err.println("A4-words.txt file invalid or missing.");
+		catch (IOException e) { //File Error
+			System.err.println("File Error: \nA4-words.txt file invalid or missing.\n"
+					+ "OR\nInput file not specified, missing, or invalid.\n");
 		}
 	}
 
@@ -77,18 +116,41 @@ public class A4Driver
 		for (String line = reader.readLine(); line != null; line = reader.readLine())
 		{
 			//search in the line for the first five-letter word that is also at the beginning of the line
-			Matcher m = Pattern.compile("[a-z]{5}").matcher(line);
+			Matcher m = Pattern.compile(FIVE_LETTER_WORD_REGEX).matcher(line);
 			if(m.find() && line.indexOf(m.group(0)) == 0) {
 				//add the valid word to our list of words
 				flWords.add(m.group(0));
 			}
 		}
 		return flWords;
-	}
+	}					
 
+	/**
+	 * First checks the line for validity, throwing an exception if it's invalid,
+	 * then if it's valid returns a string array containing start word and end word
+	 * @param inputLine Line to parse for validity and for input start and ending words.
+	 * @param validWords List of words considered valid in this assignment's scope.
+	 * @return String array containing the input words if line is valid.
+	 * @throws InvalidInputException If line is invalid
+	 */
+	private static String[] parseInput(String inputLine, ArrayList<String> validWords) throws InvalidInputException {
+		boolean validFormat = inputLine.matches(VALID_INPUT_LINE_REGEX);
+		String[] inputWords = inputLine.replaceFirst(INPUT_DELIM, "").split(INPUT_DELIM);
+		boolean wordsInDictionary = validWords.contains(inputWords[START_WORD_INPUT_INDEX]) 
+										 && validWords.contains(inputWords[END_WORD_INPUT_INDEX]); 
+		if(validFormat && wordsInDictionary)
+			return inputWords;
+		else
+			throw new InvalidInputException("Error - Input line is invalid: " + inputLine);
+	}
+	
+	/**
+	 * Prints the specified word ladder to the standard output for user inspection.
+	 * @param ladder Word Ladder to print.
+	 */
 	private static void printLadder(List<String> ladder) {
-		for (String aLadder : ladder) {
-			System.out.println(aLadder);
+		for (String word : ladder) {
+			System.out.println(word);																		
 		}
 		System.out.println("**********");
 	}

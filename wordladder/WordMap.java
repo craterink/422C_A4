@@ -14,7 +14,7 @@ public class WordMap {
 	/**
 	 * Graph/map connecting words differing by exactly one letter
 	 */
-	private final HashMap<String, wordsAndIndex> map;
+	private final HashMap<String, WordsAndIndex> map;
 
 	/**
 	 * Initializes a new word map using the specified list of words.
@@ -32,9 +32,9 @@ public class WordMap {
 	 * @param words List of words to form a graph/map
 	 * @return A HashMap object representing the word map
 	 */
-	private static HashMap<String, wordsAndIndex> makeWordMap(ArrayList<String> words) {
+	private static HashMap<String, WordsAndIndex> makeWordMap(ArrayList<String> words) {
 		//initialize hashmap to represent a graph of connected words
-		HashMap<String, wordsAndIndex> map = new HashMap<>();
+		HashMap<String, WordsAndIndex> map = new HashMap<>();
 		//go through every word and compare to every other words, looking for valid connections
 		for (String word : words) {
 			ArrayList<String> connectedWords = new ArrayList<>();
@@ -48,12 +48,12 @@ public class WordMap {
 				}
 			}
 			//add the word to the graph as a new node with edges directed towards connected words
-			map.put(word, new wordsAndIndex(connectedWords, indicies));
+			map.put(word, new WordsAndIndex(connectedWords, indicies));
 		}
 		return map;
 	}
 
-	public wordsAndIndex get(Object key) {
+	public WordsAndIndex get(Object key) {
 		return map.get(key);
 	}
 
