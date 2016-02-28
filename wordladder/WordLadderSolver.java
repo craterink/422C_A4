@@ -27,6 +27,7 @@ public class WordLadderSolver implements A4Interface {
 	 * Contains a resulting word ladder represented as a list of sequential words.
 	 */
 	private final ArrayList<String> result = new ArrayList<>();
+	ArrayList<String> rejectedCandidates = new ArrayList<>();
 	
 	/**
 	 * Word map graph in for pathfinding algorithms by this class to solve word ladders.
@@ -50,6 +51,7 @@ public class WordLadderSolver implements A4Interface {
 	@Override
 	public List<String> computeLadder(String startWord, String endWord) throws NoSuchLadderException {
 		result.clear();
+		rejectedCandidates.clear();
 		Boolean isLadder = makeLadder(startWord, endWord, -1);
 		if (isLadder) return result;
 		else throw new NoSuchLadderException("No ladder found between " + startWord + " and " + endWord);
@@ -123,11 +125,13 @@ public class WordLadderSolver implements A4Interface {
 		 * If those conditions are satisfied, call MakeLadder with the new word.
 		 */
 		for (int i = 0; i < candidateList.size(); i++) {
-			if(!result.contains(candidateList.get(i)) && index != candIndicies.get(i)) {
+			if (!result.contains(candidateList.get(i)) && index != candIndicies.get(i) && !rejectedCandidates.contains(candidateList.get(i))) {
 				String candidate = candidateList.get(i);
 				int newInt = candIndicies.get(i);
 				if (makeLadder(candidate, toWord, newInt)) {
 					return true;
+				} else {
+					rejectedCandidates.add(candidate);
 				}
 			}
 		}
