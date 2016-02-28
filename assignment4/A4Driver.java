@@ -78,11 +78,10 @@ public class A4Driver
 					String[] words = parseInput(line, fiveLetterWordList);
 					
 					List<String> result = wordLadderSolver.computeLadder(words[START_WORD_INPUT_INDEX], words[END_WORD_INPUT_INDEX]);
-					printLadder(result);
-
+					
 					boolean correct = wordLadderSolver.validateResult(words[START_WORD_INPUT_INDEX], words[END_WORD_INPUT_INDEX], result);
-					int i = 4;
-					i++;
+					printLadder(result, correct);
+
 				} catch (InvalidInputException iie) {
 					System.out.println(iie.toString());
 				} catch (NoSuchLadderException nsle) {
@@ -145,11 +144,15 @@ public class A4Driver
 	/**
 	 * Prints the specified word ladder to the standard output for user inspection.
 	 * @param ladder Word Ladder to print.
+	 * @param if the ladder is correct
 	 */
-	private static void printLadder(List<String> ladder) {
+	private static void printLadder(List<String> ladder, boolean isCorrect) {
+		System.out.println("===== " +  ladder.get(0) + " -> " + ladder.get(ladder.size() - 1) + " =====");
 		for (String word : ladder) {
 			System.out.println(word);																		
 		}
-		System.out.println("**********");
+		System.out.println("--------------------------");
+		System.out.println("Correct? " + ( isCorrect ? "YES" : "NO" ));
+		System.out.println("**************************\n");
 	}
 }
