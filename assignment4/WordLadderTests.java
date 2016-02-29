@@ -135,7 +135,7 @@ public class WordLadderTests {
 	 * Should not validate a ladder with sequential words not differing by exactly one letter 
 	 */
 	@Test
-	public void validateCrazyChangesTest() {
+	public void validateChangesTest() {
 		
 	}
 	
