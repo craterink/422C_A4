@@ -9,9 +9,7 @@ package wordladder;
 
 import wordladder.errors.NoSuchLadderException;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static wordladder.WordMap.letterDelta;
 
@@ -22,13 +20,13 @@ import static wordladder.WordMap.letterDelta;
  *
  */
 public class WordLadderSolver implements A4Interface {
-	
+
 	/**
 	 * Contains a resulting word ladder represented as a list of sequential words.
 	 */
 	private final ArrayList<String> result = new ArrayList<>();
-	ArrayList<String> rejectedCandidates = new ArrayList<>();
-	
+	int tried = 0;
+
 	/**
 	 * Word map graph in for pathfinding algorithms by this class to solve word ladders.
 	 */
@@ -51,7 +49,7 @@ public class WordLadderSolver implements A4Interface {
 	@Override
 	public List<String> computeLadder(String startWord, String endWord) throws NoSuchLadderException {
 		result.clear();
-		rejectedCandidates.clear();
+		tried = 0;
 		Boolean isLadder = makeLadder(startWord, endWord, -1);
 		if (isLadder) return result;
 		else throw new NoSuchLadderException("No ladder found between " + startWord + " and " + endWord);
@@ -70,20 +68,20 @@ public class WordLadderSolver implements A4Interface {
 		//1) Make sure start and end words are correct
 		if(!wordLadder.get(0).equals(startWord)) return false;
 		if(!wordLadder.get(wordLadder.size()-1).equals(endWord)) return false;
-		
+
 		//2) Make sure all words in wordLadder are valid (i.e., they should be keys in the wordmap)
 		for(String word : wordLadder) {
 			if(wordMap.get(word) == null) return false;
 		}
-		
+
 		//3) Make sure all sequential words differ by exactly one letter
 		for(int i = 1; i < wordLadder.size(); i++) {
 			if(WordMap.letterDelta(wordLadder.get(i), wordLadder.get(i-1))!= 1) return false;
 		}
-		
+
 		//4)Make sure there's no duplicate words
 		if(wordLadder.size() != (new HashSet<String>(wordLadder)).size()) return false;
-		
+
 		//If all these conditions are met, it's a valid word ladder.
 		return true;
 	}
@@ -119,24 +117,39 @@ public class WordLadderSolver implements A4Interface {
 			candIndicies = fromKey.getChangedIndices();
 
 		}
+
+		//Sort candidates on how different they are to the final word.
+		HashMap<String, Integer> candidateLookup = new HashMap<>();
+		for (int i = 0; i < candidateList.size(); i++) {
+			Integer diff = letterDelta(candidateList.get(i), toWord);
+			candidateLookup.put(candidateList.get(i), candIndicies.get(i));
+			candidateList.set(i, diff.toString() + candidateList.get(i));
+		}
+		Collections.sort(candidateList);
+
+		for (int i = 0; i < candidateList.size(); i++) {
+			candidateList.set(i, candidateList.get(i).substring(1));
+		}
+
 		/*For every candidate, check that it
 		 * 1. Does not already exist in the ladder
 		 * 2. Does not have the same letter changed as the previous word
 		 * If those conditions are satisfied, call MakeLadder with the new word.
 		 */
 		for (int i = 0; i < candidateList.size(); i++) {
-			if (!result.contains(candidateList.get(i)) && index != candIndicies.get(i) && !rejectedCandidates.contains(candidateList.get(i))) {
-				String candidate = candidateList.get(i);
-				int newInt = candIndicies.get(i);
+			String candidate = candidateList.get(i);
+			int newInt = candidateLookup.get(candidate);
+			if (!result.contains(candidate) && index != newInt) {
 				if (makeLadder(candidate, toWord, newInt)) {
 					return true;
-				} else {
-					rejectedCandidates.add(candidate);
+				} else if (tried == wordMap.size()) {
+					return false;
 				}
 			}
 		}
 		//If no candidates match the conditions, remove the word from the ladder and return false.
 		result.remove(fromWord);
+		tried++;
 		return false;
 	}
 
