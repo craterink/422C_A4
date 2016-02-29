@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.time.StopWatch;
+
 /**
  * Driver for EE422C Assignment 4 - Word Ladder
  * @author Cooper Raterink, Brandon Arrindell
@@ -26,7 +28,7 @@ public class A4Driver
 	 * File containing the list of all five letter words
 	 */
 	private static final String FIVE_LETTER_WORDS_FILE =
-			"/media/removable/UUI/GIT/422C_A41/A4-words.txt";
+			"C:\\Users\\Cooper\\workspace\\Ass4_WordLadder\\src\\A4-words.txt";
 
 	/**
 	 * Regex matching a five letter word in lowercase (as specified in this assignment)
@@ -63,6 +65,10 @@ public class A4Driver
 	{
 		try
 		{
+			//start a stopwatch for efficiency analysis
+			StopWatch watch = new StopWatch();
+			watch.start();
+			
 			//formulate list of valid five-letter words and a wordmap from that list
 			ArrayList<String> fiveLetterWordList = getFiveLetterWords();
 			WordMap wordMap = new WordMap(fiveLetterWordList);
@@ -70,6 +76,12 @@ public class A4Driver
 			// Create a word ladder solver object
 			A4Interface wordLadderSolver = new WordLadderSolver(wordMap);
 
+			//log the set-up time
+			watch.stop();
+			String setUpTime = watch.toString();
+			watch.reset();
+			watch.start();
+			
 			//Iterate through input file line by line and make a word ladder from the words specified by each valid input line
 			FileReader freader = new FileReader(args[INPUT_FILE_ARGS_INDEX]);
 			BufferedReader reader = new BufferedReader(freader);
@@ -88,6 +100,12 @@ public class A4Driver
 					System.out.println(nsle.getMessage() + "\n");
 				}
 			}
+			
+			//log computation time and output times for both logged intervals
+			watch.stop();
+			String computationTime = watch.toString();
+			System.out.println("Set up time: " + setUpTime);
+			System.out.println("Computation time: " + computationTime);
 
 		}
 		catch (IOException e) { //File Error
