@@ -48,11 +48,15 @@ public class WordLadderSolver implements A4Interface {
 	 */
 	@Override
 	public List<String> computeLadder(String startWord, String endWord) throws NoSuchLadderException {
+		Boolean isLadder = false;
 		result.clear();
 		tried = 0;
-		Boolean isLadder = makeLadder(startWord, endWord, -1);
+		if(wordMap.containsKey(startWord) && wordMap.containsKey(endWord)) {
+			isLadder = makeLadder(startWord, endWord, -1);
+		}
 		if (isLadder) return result;
 		else throw new NoSuchLadderException("No ladder found between " + startWord + " and " + endWord);
+
 	}
 
 
