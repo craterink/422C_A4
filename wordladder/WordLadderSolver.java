@@ -51,6 +51,9 @@ public class WordLadderSolver implements A4Interface {
 		Boolean isLadder = false;
 		result.clear();
 		tried = 0;
+		if(startWord.equals(endWord)){
+			throw new NoSuchLadderException("No ladder exists as " + startWord + " is both the startWord and endWord!");
+		}
 		if(wordMap.containsKey(startWord) && wordMap.containsKey(endWord)) {
 			isLadder = makeLadder(startWord, endWord, -1);
 		}
