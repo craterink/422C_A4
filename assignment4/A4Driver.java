@@ -101,7 +101,7 @@ public class A4Driver
 	 * @return List of valid English five letter words
 	 * @throws IOException If the five-letter-word file is missing
 	 */
-	private static ArrayList<String> getFiveLetterWords() throws IOException {
+	public static ArrayList<String> getFiveLetterWords() throws IOException {
 		//read each line from file - parse for valid words
 		FileReader freader = new FileReader(FIVE_LETTER_WORDS_FILE);
 		BufferedReader reader = new BufferedReader(freader);
