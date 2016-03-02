@@ -1,11 +1,18 @@
-Analysis and Design To Do:
 Brandon
+
 -IPO
+
 -Functional block diagram
+
 -Paragraph w/ rationale behind design
 
+
+
 Cooper
+
 -Use case
+
 -UML
+
 -Main driver algorithm
 

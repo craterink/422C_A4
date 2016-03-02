@@ -28,7 +28,7 @@ public class A4Driver
 	 * File containing the list of all five letter words
 	 */
 	private static final String FIVE_LETTER_WORDS_FILE =
-			"C:\\Users\\Cooper\\workspace\\Ass4_WordLadder\\src\\A4-words.txt";
+			"src/A4-words.txt";
 
 	/**
 	 * Regex matching a five letter word in lowercase (as specified in this assignment)
@@ -75,7 +75,7 @@ public class A4Driver
 
 			// Create a word ladder solver object
 			A4Interface wordLadderSolver = new WordLadderSolver(wordMap);
-
+			
 			//log the set-up time
 			watch.stop();
 			String setUpTime = watch.toString();

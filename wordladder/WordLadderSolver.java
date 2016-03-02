@@ -7,6 +7,7 @@
  */
 package wordladder;
 
+import wordladder.errors.InvalidInputException;
 import wordladder.errors.NoSuchLadderException;
 
 import java.util.*;
