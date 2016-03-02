@@ -52,6 +52,9 @@ public class WordLadderSolver implements A4Interface {
 		Boolean isLadder = false;
 		result.clear();
 		tried = 0;
+		if(startWord == null || endWord == null) {
+			throw new NoSuchLadderException("Cannot make a ladder between null Strings");
+		}
 		if(startWord.equals(endWord)){
 			throw new NoSuchLadderException("No ladder exists as " + startWord + " is both the startWord and endWord!");
 		}
@@ -60,7 +63,6 @@ public class WordLadderSolver implements A4Interface {
 		}
 		if (isLadder) return result;
 		else throw new NoSuchLadderException("No ladder found between " + startWord + " and " + endWord);
-
 	}
 
 
