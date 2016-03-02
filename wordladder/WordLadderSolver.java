@@ -86,9 +86,9 @@ public class WordLadderSolver implements A4Interface {
 		}
 		
 		//1) Make sure all words in wordLadder are valid (i.e., they should be keys in the wordmap) and not null
-				for(String word : wordLadder) {
-					if(word == null || wordMap.get(word) == null) return false;
-				}
+		for (String word : wordLadder) {
+			if (word == null || wordMap.get(word) == null) return false;
+		}
 		
 		//2) Make sure start and end words are correct
 		//Stretch case where startWord and endWord are equals. Valid result is word printed twice

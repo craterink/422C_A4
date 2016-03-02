@@ -7,6 +7,7 @@ import wordladder.WordLadderSolver;
 import wordladder.WordMap;
 import wordladder.errors.NoSuchLadderException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertFalse;
@@ -64,7 +65,7 @@ public class WordLadderTests {
 	 */
 	@Test(expected = NoSuchLadderException.class)
 	public void nullLadderTest() throws NoSuchLadderException {
-		solver.computeLadder("", "");
+		solver.computeLadder(null, null);
 	}
 	
 	/**
@@ -100,6 +101,25 @@ public class WordLadderTests {
 
 	}
 
+	/**
+	 * Test the word ladder 100 times with the first 200 words
+	 */
+	@Test
+	public void stressTest() throws NoSuchLadderException {
+		ArrayList<String> words = null;
+		try {
+			words = A4Driver.getFiveLetterWords();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (int i = 0; i < 200; i += 2) {
+			try {
+				solver.computeLadder(words.get(i), words.get(i + 1));
+			} catch (NoSuchLadderException ignored) {
+			}
+		}
+	}
 //---------- validateResult tests ----------
 	
 	/**
