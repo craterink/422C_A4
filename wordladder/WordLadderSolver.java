@@ -51,16 +51,10 @@ public class WordLadderSolver implements A4Interface {
 		Boolean isLadder = false;
 		result.clear();
 		tried = 0;
-		if(startWord == null || endWord == null) {
+		if (startWord == null || endWord == null) {
 			throw new NoSuchLadderException("Cannot make a ladder between null Strings");
 		}
-		if(startWord.equals(endWord)){
-			throw new NoSuchLadderException("No ladder exists as " + startWord + " is both the startWord and endWord!");
 
-		//Null ladder edge case
-		if(startWord.equals("") || endWord.equals("") ) {
-			throw new NoSuchLadderException("One or both words left blank.");
-		}
 		//Same word edge case
 		if (startWord.equals(endWord)) {
 			result.add(startWord);
@@ -69,7 +63,7 @@ public class WordLadderSolver implements A4Interface {
 		}
 
 		//No edge cases, check that words exist and run makeLadder
-		if(wordMap.containsKey(startWord) && wordMap.containsKey(endWord)) {
+		if (wordMap.containsKey(startWord) && wordMap.containsKey(endWord)) {
 			isLadder = makeLadder(startWord, endWord, -1);
 		}
 		if (isLadder) return result;
@@ -86,7 +80,6 @@ public class WordLadderSolver implements A4Interface {
 	 * @return true if word ladder is valid, false otherwise
 	 */
 	public boolean validateResult(String startWord, String endWord, List<String> wordLadder) {
-<<<<<<< HEAD
 		//make sure none of the parameters are null
 		if(startWord == null || endWord == null || wordLadder == null) {
 			return false;
@@ -98,7 +91,6 @@ public class WordLadderSolver implements A4Interface {
 				}
 		
 		//2) Make sure start and end words are correct
-=======
 		//Stretch case where startWord and endWord are equals. Valid result is word printed twice
 		//according to Mehtaab
 		if (startWord.equals(endWord))
@@ -106,7 +98,6 @@ public class WordLadderSolver implements A4Interface {
 				return true;
 
 		//1) Make sure start and end words are correct
->>>>>>> c30f18e42b08f5a18c36e8777d7d1ba30866eb72
 		if(!wordLadder.get(0).equals(startWord)) return false;
 		if(!wordLadder.get(wordLadder.size()-1).equals(endWord)) return false;
 
