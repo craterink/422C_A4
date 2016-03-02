@@ -1,15 +1,16 @@
 package assignment4;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import wordladder.A4Interface;
 import wordladder.WordLadderSolver;
 import wordladder.WordMap;
+import wordladder.errors.NoSuchLadderException;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Class for testing JUnit test cases
@@ -44,61 +45,61 @@ public class WordLadderTests {
 	/**
 	 * Shouldn't compute a ladder that isn't from a five letter word to a five letter word
 	 */
-	@Test
-	public void fiveLettersTest() {
-		
+	@Test(expected = NoSuchLadderException.class)
+	public void fiveLettersTest() throws NoSuchLadderException {
+		solver.computeLadder("dog", "cat");
 	}
 	
 	/**
 	 * Shouldn't compute a ladder that isn't from a valid word to a valid word
 	 */
-	@Test
-	public void notAWordTest() {
-		
+	@Test(expected = NoSuchLadderException.class)
+	public void notAWordTest() throws NoSuchLadderException {
+		solver.computeLadder("sdfsd", "abcde");
 	}
 	
 	/**
 	 * TODO: What should this do?
 	 * How should program handle null params?
 	 */
-	@Test
-	public void nullLadderTest() {
-		
+	@Test(expected = NoSuchLadderException.class)
+	public void nullLadderTest() throws NoSuchLadderException {
+		solver.computeLadder("", "");
 	}
 	
 	/**
 	 * Should throw a NoSuchLadderException when computing an "impossible" ladder
 	 */
-	@Test
-	public void noSuchLadderTest() {
-		
+	@Test(expected = NoSuchLadderException.class)
+	public void noSuchLadderTest() throws NoSuchLadderException {
+		solver.computeLadder("hello", "world");
 	}
 	
 	/**
 	 * Should be able to make a word ladder from "dears" to "fears"
 	 */
 	@Test
-	public void easyLadderTest() {
-		
+	public void easyLadderTest() throws NoSuchLadderException {
+		solver.computeLadder("dears", "fears");
 	}
 	
 	/**
 	 * Should be able to make a word ladder from "stone" to "money"
 	 */
 	@Test
-	public void hardLadderTest() {
-		
+	public void hardLadderTest() throws NoSuchLadderException {
+		solver.computeLadder("stone", "money");
 	}
 	
 	/**
-	 * TODO: WHAT SHOULD THIS DO??
 	 * Make a word ladder from "heart" to "heart"
 	 */
 	@Test
-	public void trivialLadderTest() {
-		
+	public void trivialLadderTest() throws NoSuchLadderException {
+		solver.computeLadder("heart", "heart");
+
 	}
-	
+
 //---------- validateResult tests ----------
 	
 	/**
@@ -108,7 +109,6 @@ public class WordLadderTests {
 	public void validateSimpleLadderTest() {
 		ArrayList<String> testLadder = new ArrayList<String>();
 		testLadder.add("dears");
-		assertTrue(solver.validateResult("dears", "dears", testLadder));
 		testLadder.add("fears");
 		assertTrue(solver.validateResult("dears", "fears", testLadder));
 		testLadder.add("gears");
@@ -120,7 +120,12 @@ public class WordLadderTests {
 	 */
 	@Test
 	public void validateStartEndTest() {
-		
+		ArrayList<String> testLadder = new ArrayList<String>();
+		testLadder.add("dears");
+		testLadder.add("fears");
+		assertFalse(solver.validateResult("tears", "fears", testLadder));
+		testLadder.add("gears");
+		assertFalse(solver.validateResult("tears", "gears", testLadder));
 	}
 	
 	/**
@@ -128,7 +133,20 @@ public class WordLadderTests {
 	 */
 	@Test
 	public void validateInvalidWordsTest() {
-		
+		ArrayList<String> testLadder = new ArrayList<String>();
+		testLadder.add("heads");
+		testLadder.add("abcde");//This makes it wrong
+		testLadder.add("deals");
+		testLadder.add("teals");
+		testLadder.add("tells");
+		testLadder.add("tills");
+		testLadder.add("rills");
+		testLadder.add("bills");
+		testLadder.add("balls");
+		testLadder.add("bawls");
+		testLadder.add("bails");
+		testLadder.add("tails");
+		assertFalse(solver.validateResult("heads", "tails", testLadder));
 	}
 	
 	/**
@@ -136,7 +154,21 @@ public class WordLadderTests {
 	 */
 	@Test
 	public void validateChangesTest() {
-		
+		ArrayList<String> testLadder = new ArrayList<String>();
+		testLadder.add("heads");
+		testLadder.add("ready");//Two letters
+		testLadder.add("heals");
+		testLadder.add("deals");
+		testLadder.add("teals");
+		testLadder.add("tells");
+		testLadder.add("tills");
+		testLadder.add("rills");
+		testLadder.add("bills");
+		testLadder.add("balls");
+		testLadder.add("bawls");
+		testLadder.add("bails");
+		testLadder.add("tails");
+		assertFalse(solver.validateResult("heads", "tails", testLadder));
 	}
 	
 	/**
@@ -144,6 +176,20 @@ public class WordLadderTests {
 	 */
 	@Test
 	public void validateDuplicateWordsTest() {
-		
+		ArrayList<String> testLadder = new ArrayList<String>();
+		testLadder.add("heads");
+		testLadder.add("heads");//Duplicate word
+		testLadder.add("heals");
+		testLadder.add("deals");
+		testLadder.add("teals");
+		testLadder.add("tells");
+		testLadder.add("tills");
+		testLadder.add("rills");
+		testLadder.add("bills");
+		testLadder.add("balls");
+		testLadder.add("bawls");
+		testLadder.add("bails");
+		testLadder.add("tails");
+		assertFalse(solver.validateResult("heads", "tails", testLadder));
 	}
 }

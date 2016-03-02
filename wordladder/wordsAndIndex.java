@@ -46,28 +46,11 @@ class WordsAndIndex {
     }
 
     /**
-     * Sets this object's condidate words list
-     * @param candidates Candidate words list
-     */
-    public void setCandidateWords(ArrayList<String> candidates) {
-        this.candidateWords = candidates;
-    }
-
-    /**
-     * Gets this objefct's changed indices list.
+     * Gets this object's changed indices list.
      * @return List of changed indices/
      */
     public ArrayList<Integer> getChangedIndices() {
         return changedIndices;
     }
-
-    /**
-     * Sets this object's changed indices list
-     * @param changedIndices List of changed indices.
-     */
-    public void setChangedIndices(ArrayList<Integer> changedIndices) {
-        this.changedIndices = changedIndices;
-    }
-
 
 }

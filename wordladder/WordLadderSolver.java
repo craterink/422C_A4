@@ -7,7 +7,6 @@
  */
 package wordladder;
 
-import wordladder.errors.InvalidInputException;
 import wordladder.errors.NoSuchLadderException;
 
 import java.util.*;
@@ -52,14 +51,19 @@ public class WordLadderSolver implements A4Interface {
 		Boolean isLadder = false;
 		result.clear();
 		tried = 0;
-		if(startWord.equals(endWord)){
+
+		//Null ladder edge case
+		if(startWord.equals("") || endWord.equals("") ) {
+			throw new NoSuchLadderException("One or both words left blank.");
+		}
+		//Same word edge case
+		if (startWord.equals(endWord)) {
 			result.add(startWord);
 			result.add(startWord);
 			return result;
 		}
-		if(startWord.equals("") || endWord.equals("") ) {
-			throw new NoSuchLadderException("One or both words left blank.");
-		}
+
+		//No edge cases, check that words exist and run makeLadder
 		if(wordMap.containsKey(startWord) && wordMap.containsKey(endWord)) {
 			isLadder = makeLadder(startWord, endWord, -1);
 		}
@@ -80,7 +84,9 @@ public class WordLadderSolver implements A4Interface {
 	public boolean validateResult(String startWord, String endWord, List<String> wordLadder) {
 		//Stretch case where startWord and endWord are equals. Valid result is word printed twice
 		//according to Mehtaab
-		if(startWord.equals(endWord) && wordLadder.get(0).equals(wordLadder.get(1))) return true;
+		if (startWord.equals(endWord))
+			if (wordLadder.get(0).equals(wordLadder.get(1)))
+				return true;
 
 		//1) Make sure start and end words are correct
 		if(!wordLadder.get(0).equals(startWord)) return false;
