@@ -75,14 +75,21 @@ public class WordLadderSolver implements A4Interface {
 	 * @return true if word ladder is valid, false otherwise
 	 */
 	public boolean validateResult(String startWord, String endWord, List<String> wordLadder) {
-		//1) Make sure start and end words are correct
+		//make sure none of the parameters are null
+		if(startWord == null || endWord == null || wordLadder == null) {
+			return false;
+		}
+		
+		//1) Make sure all words in wordLadder are valid (i.e., they should be keys in the wordmap) and not null
+				for(String word : wordLadder) {
+					if(word == null || wordMap.get(word) == null) return false;
+				}
+		
+		//2) Make sure start and end words are correct
 		if(!wordLadder.get(0).equals(startWord)) return false;
 		if(!wordLadder.get(wordLadder.size()-1).equals(endWord)) return false;
 
-		//2) Make sure all words in wordLadder are valid (i.e., they should be keys in the wordmap)
-		for(String word : wordLadder) {
-			if(wordMap.get(word) == null) return false;
-		}
+		
 
 		//3) Make sure all sequential words differ by exactly one letter
 		for(int i = 1; i < wordLadder.size(); i++) {
