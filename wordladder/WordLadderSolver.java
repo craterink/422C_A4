@@ -25,7 +25,7 @@ public class WordLadderSolver implements A4Interface {
 	/**
 	 * Contains a resulting word ladder represented as a list of sequential words.
 	 */
-	private final ArrayList<String> result = new ArrayList<>();
+	private final ArrayList<String> result = new ArrayList<String>();
 	int tried = 0;
 
 	/**
@@ -53,7 +53,12 @@ public class WordLadderSolver implements A4Interface {
 		result.clear();
 		tried = 0;
 		if(startWord.equals(endWord)){
-			throw new NoSuchLadderException("No ladder exists as " + startWord + " is both the startWord and endWord!");
+			result.add(startWord);
+			result.add(startWord);
+			return result;
+		}
+		if(startWord.equals("") || endWord.equals("") ) {
+			throw new NoSuchLadderException("One or both words left blank.");
 		}
 		if(wordMap.containsKey(startWord) && wordMap.containsKey(endWord)) {
 			isLadder = makeLadder(startWord, endWord, -1);
@@ -73,6 +78,10 @@ public class WordLadderSolver implements A4Interface {
 	 * @return true if word ladder is valid, false otherwise
 	 */
 	public boolean validateResult(String startWord, String endWord, List<String> wordLadder) {
+		//Stretch case where startWord and endWord are equals. Valid result is word printed twice
+		//according to Mehtaab
+		if(startWord.equals(endWord) && wordLadder.get(0).equals(wordLadder.get(1))) return true;
+
 		//1) Make sure start and end words are correct
 		if(!wordLadder.get(0).equals(startWord)) return false;
 		if(!wordLadder.get(wordLadder.size()-1).equals(endWord)) return false;
@@ -127,7 +136,7 @@ public class WordLadderSolver implements A4Interface {
 		}
 
 		//Sort candidates on how different they are to the final word.
-		HashMap<String, Integer> candidateLookup = new HashMap<>();
+		HashMap<String, Integer> candidateLookup = new HashMap<String, Integer>();
 		for (int i = 0; i < candidateList.size(); i++) {
 			Integer diff = letterDelta(candidateList.get(i), toWord);
 			candidateLookup.put(candidateList.get(i), candIndicies.get(i));
