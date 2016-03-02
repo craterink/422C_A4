@@ -40,11 +40,11 @@ public class WordMap {
      */
     private static HashMap<String, WordsAndIndex> makeWordMap(ArrayList<String> words) {
         //initialize hashmap to represent a graph of connected words
-        HashMap<String, WordsAndIndex> map = new HashMap<>();
+        HashMap<String, WordsAndIndex> map = new HashMap<String, WordsAndIndex>();
         //go through every word and compare to every other words, looking for valid connections
         for (String word : words) {
-            ArrayList<String> connectedWords = new ArrayList<>();
-            ArrayList<Integer> indicies = new ArrayList<>();
+            ArrayList<String> connectedWords = new ArrayList<String>();
+            ArrayList<Integer> indicies = new ArrayList<Integer>();
             for (String cmpWord : words) {
                 //if it is different by exactly one letter and is the same length
                 if (letterDelta(word, cmpWord) == 1 && word.length() == cmpWord.length()) {

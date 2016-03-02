@@ -1,5 +1,6 @@
 package assignment4;
 
+import org.apache.commons.lang3.time.StopWatch;
 import wordladder.A4Interface;
 import wordladder.WordLadderSolver;
 import wordladder.WordMap;
@@ -14,8 +15,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.time.StopWatch;
-
 /**
  * Driver for EE422C Assignment 4 - Word Ladder
  * @author Cooper Raterink, Brandon Arrindell
@@ -28,7 +27,7 @@ public class A4Driver
 	 * File containing the list of all five letter words
 	 */
 	private static final String FIVE_LETTER_WORDS_FILE =
-			"src/A4-words.txt";
+			"A4-words.txt";
 
 	/**
 	 * Regex matching a five letter word in lowercase (as specified in this assignment)
@@ -129,7 +128,7 @@ public class A4Driver
 		BufferedReader reader = new BufferedReader(freader);
 
 		//initialize a list to put valid 5-letter words in
-		ArrayList<String> flWords = new ArrayList<>();
+		ArrayList<String> flWords = new ArrayList<String>();
 
 		//search for valid words in each line from the given file
 		for (String line = reader.readLine(); line != null; line = reader.readLine())
