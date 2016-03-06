@@ -9,7 +9,12 @@ package wordladder;
 
 import wordladder.errors.NoSuchLadderException;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static wordladder.WordMap.letterDelta;
 
@@ -25,16 +30,36 @@ public class WordLadderSolver implements A4Interface {
 	 * Contains a resulting word ladder represented as a list of sequential words.
 	 */
 	private final ArrayList<String> result = new ArrayList<String>();
-	int tried = 0;
+	
+	/**
+	 * contains how many tries have occurred
+	 */
+	private int tried = 0;
+	
+	/**
+	 * File containing the list of all five letter words
+	 */
+	private static final String FIVE_LETTER_WORDS_FILE =
+			"src/A4-words.txt";
+	
+	/**
+	 * Regex matching a five letter word in lowercase (as specified in this assignment)
+	 */
+	private static final String FIVE_LETTER_WORD_REGEX = "[a-z]{5}";
 
 	/**
 	 * Word map graph in for pathfinding algorithms by this class to solve word ladders.
 	 */
-	private final WordMap wordMap;
+	private WordMap wordMap = null;
 
-
-	public WordLadderSolver(WordMap map) {
-		wordMap = map;
+	/**
+	 * Constructor used to initialize the default word ladder solver used for this assignment
+	 * @throws IOException when five letter words file is missing or corrupted
+	 */
+	public WordLadderSolver() throws IOException {
+		//formulate list of valid five-letter words and a wordmap from that list
+		ArrayList<String> fiveLetterWordList = getFiveLetterWords();
+		wordMap = new WordMap(fiveLetterWordList);
 	}
 
 	// do not change signature of the method implemented from the interface
@@ -182,4 +207,42 @@ public class WordLadderSolver implements A4Interface {
 		return false;
 	}
 
+	/**
+	 * Gets the list of valid English 5-letter words from the file given to us for A4
+	 * @return List of valid English five letter words
+	 * @throws IOException If the five-letter-word file is missing
+	 */
+	public static ArrayList<String> getFiveLetterWords() throws IOException{
+		try{
+			//read each line from file - parse for valid words
+			FileReader freader = new FileReader(FIVE_LETTER_WORDS_FILE);
+			BufferedReader reader = new BufferedReader(freader);
+
+			//initialize a list to put valid 5-letter words in
+			ArrayList<String> flWords = new ArrayList<String>();
+
+			//search for valid words in each line from the given file
+			for (String line = reader.readLine(); line != null; line = reader.readLine())
+			{
+				//search in the line for the first five-letter word that is also at the beginning of the line
+				Matcher m = Pattern.compile(FIVE_LETTER_WORD_REGEX).matcher(line);
+				if(m.find() && line.indexOf(m.group(0)) == 0) {
+					//add the valid word to our list of words
+					flWords.add(m.group(0));
+				}
+			}
+			return flWords;
+		} catch (IOException e) {
+			throw new IOException("Five-letter word file was not found or is missing.\n"
+					+ "Make sure it is in src folder and is named \"A4-words.txt\"");
+		}
+	}
+
+	/**
+	 * Returns the five letter word dictionary this word ladder solver uses
+	 */
+	public ArrayList<String> getFiveLetterWordList() {
+		return wordMap.getFiveLetterWordList();
+	}
+	
 }

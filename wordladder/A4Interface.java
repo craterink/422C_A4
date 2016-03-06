@@ -6,6 +6,7 @@
  */
 package wordladder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import wordladder.errors.NoSuchLadderException;
@@ -43,4 +44,6 @@ public interface A4Interface
      * @return True if the word ladder is correct, false otherwise.
      */
     boolean validateResult(String startWord, String endWord, List<String> wordLadder);
+
+	ArrayList<String> getFiveLetterWordList();
 }

@@ -8,6 +8,7 @@
 package wordladder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -129,5 +130,13 @@ public class WordMap {
      */
     public int size() {
         return this.map.size();
+    }
+    
+    /**
+     * 
+     * @return List of valid five letter words
+     */
+    public ArrayList<String> getFiveLetterWordList() {
+   	 return new ArrayList<String>(map.keySet());
     }
 }

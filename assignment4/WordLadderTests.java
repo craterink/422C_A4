@@ -32,11 +32,7 @@ public class WordLadderTests {
 	@Before
 	public void setUp() throws Exception {
 		if (solver == null) {
-			//formulate list of valid five-letter words and a wordmap from that list
-			ArrayList<String> fiveLetterWordList = A4Driver.getFiveLetterWords();
-			WordMap wordMap = new WordMap(fiveLetterWordList);
-			// Create a word ladder solver object
-			solver = new WordLadderSolver(wordMap);
+			solver = new WordLadderSolver();
 		}
 	}
 
@@ -105,14 +101,12 @@ public class WordLadderTests {
 	 * Test the word ladder 100 times with the first 200 words
 	 */
 	@Test
-	public void stressTest() throws NoSuchLadderException {
+	public void stressTest() throws NoSuchLadderException, IOException {
 		ArrayList<String> words = null;
-		try {
-			words = A4Driver.getFiveLetterWords();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		
+		words = WordLadderSolver.getFiveLetterWords();
+		
+		if(words != null)
 		for (int i = 0; i < 200; i += 2) {
 			try {
 				solver.computeLadder(words.get(i), words.get(i + 1));

@@ -24,12 +24,6 @@ import java.util.regex.Pattern;
 public class A4Driver
 {
 	/**
-	 * File containing the list of all five letter words
-	 */
-	private static final String FIVE_LETTER_WORDS_FILE =
-			"A4-words.txt";
-
-	/**
 	 * Regex matching a five letter word in lowercase (as specified in this assignment)
 	 */
 	private static final String FIVE_LETTER_WORD_REGEX = "[a-z]{5}";
@@ -67,13 +61,9 @@ public class A4Driver
 			//start a stopwatch for efficiency analysis
 			StopWatch watch = new StopWatch();
 			watch.start();
-			
-			//formulate list of valid five-letter words and a wordmap from that list
-			ArrayList<String> fiveLetterWordList = getFiveLetterWords();
-			WordMap wordMap = new WordMap(fiveLetterWordList);
 
 			// Create a word ladder solver object
-			A4Interface wordLadderSolver = new WordLadderSolver(wordMap);
+			WordLadderSolver wordLadderSolver = new WordLadderSolver();
 			
 			List<String> testLadder = new ArrayList<String>();
 			testLadder.add("apple");
@@ -90,7 +80,7 @@ public class A4Driver
 			BufferedReader reader = new BufferedReader(freader);
 			for (String line = reader.readLine(); line != null; line = reader.readLine()) {
 				try {
-					String[] words = parseInput(line, fiveLetterWordList);
+					String[] words = parseInput(line, wordLadderSolver.getFiveLetterWordList());
 
 					List<String> result = wordLadderSolver.computeLadder(words[START_WORD_INPUT_INDEX], words[END_WORD_INPUT_INDEX]);
 
@@ -115,32 +105,6 @@ public class A4Driver
 			System.err.println("File Error: \nA4-words.txt file invalid or missing.\n"
 					+ "OR\nInput file not specified, missing, or invalid.\n");
 		}
-	}
-
-	/**
-	 * Gets the list of valid English 5-letter words from the file given to us for A4
-	 * @return List of valid English five letter words
-	 * @throws IOException If the five-letter-word file is missing
-	 */
-	public static ArrayList<String> getFiveLetterWords() throws IOException {
-		//read each line from file - parse for valid words
-		FileReader freader = new FileReader(FIVE_LETTER_WORDS_FILE);
-		BufferedReader reader = new BufferedReader(freader);
-
-		//initialize a list to put valid 5-letter words in
-		ArrayList<String> flWords = new ArrayList<String>();
-
-		//search for valid words in each line from the given file
-		for (String line = reader.readLine(); line != null; line = reader.readLine())
-		{
-			//search in the line for the first five-letter word that is also at the beginning of the line
-			Matcher m = Pattern.compile(FIVE_LETTER_WORD_REGEX).matcher(line);
-			if(m.find() && line.indexOf(m.group(0)) == 0) {
-				//add the valid word to our list of words
-				flWords.add(m.group(0));
-			}
-		}
-		return flWords;
 	}
 
 	/**
