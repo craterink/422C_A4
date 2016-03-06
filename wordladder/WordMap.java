@@ -109,6 +109,11 @@ public class WordMap {
         }
     }
 
+    /**
+     * 
+     * @param key
+     * @return WordsAndIndex object the key refers to
+     */
     public WordsAndIndex get(Object key) {
         return map.get(key);
     }
