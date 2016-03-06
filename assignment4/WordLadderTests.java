@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import wordladder.A4Interface;
 import wordladder.WordLadderSolver;
-import wordladder.WordMap;
 import wordladder.errors.NoSuchLadderException;
 
 import java.io.IOException;
@@ -56,7 +55,6 @@ public class WordLadderTests {
 	}
 	
 	/**
-	 * TODO: What should this do?
 	 * How should program handle null params?
 	 */
 	@Test(expected = NoSuchLadderException.class)

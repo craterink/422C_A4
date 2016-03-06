@@ -64,11 +64,7 @@ public class A4Driver
 
 			// Create a word ladder solver object
 			WordLadderSolver wordLadderSolver = new WordLadderSolver();
-			
-			List<String> testLadder = new ArrayList<String>();
-			testLadder.add("apple");
-			testLadder.add(null);
-			
+
 			//log the set-up time
 			watch.stop();
 			String setUpTime = watch.toString();
