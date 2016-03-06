@@ -40,7 +40,7 @@ public class WordLadderSolver implements A4Interface {
 	 * File containing the list of all five letter words
 	 */
 	private static final String FIVE_LETTER_WORDS_FILE =
-			"src/A4-words.txt";
+			"A4-words.txt";
 	
 	/**
 	 * Regex matching a five letter word in lowercase (as specified in this assignment)
